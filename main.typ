@@ -23,10 +23,23 @@
   // ```
   // cf. https://touying-typ.github.io/docs/tutorials/dynamic/handout
   config-common(handout: false),
+  header: [
+    // show current section (level: 1) in the header
+    #text(gray, utils.display-current-heading(level: 1)),
+    \
+    // show current subsection (level: 2) in the header
+    #text(gray, utils.display-current-heading(level: 2))
+  ],
+  // show current slide number and total slide count in the footer
+  // cf. https://touying-typ.github.io/docs/tutorials/progress/counters
+  footer-right: context [#utils.slide-counter.get().first() - #utils.last-slide-number],
+  // show progress bar in the footer
+  // cf. https://touying-typ.github.io/docs/tutorials/progress/counters#progress-bar
+  footer: self => utils.touying-progress(ratio => {
+    // ratio is a float between 0.0 and 1.0
+    box(width: ratio * 100%, height: 4pt, fill: self.colors.primary)
+  }),
 )
-// show appendix
-// c.f. https://touying-typ.github.io/docs/tutorials/sections#appendix
-#show: appendix
 
 = Title
 
@@ -172,6 +185,12 @@ Fourth show message!
          & = only("3-", (x + 1)^2) \
   $
 ])
+
+// show appendix
+// slide counter is frozen here, so following slides don't affect
+// the total slide count shown in the footer
+// c.f. https://touying-typ.github.io/docs/tutorials/sections#appendix
+#show: appendix
 
 == Extra Notes for Handout <touying:handout>
 // cf. https://touying-typ.github.io/docs/tutorials/dynamic/handout#handout-only-slides
